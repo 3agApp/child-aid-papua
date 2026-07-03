@@ -62,13 +62,22 @@ class CAP_Checkout {
 		return cap_calculate_donation( $order->get_total() - $order->get_total_refunded() );
 	}
 
+	private static function logo_url() {
+		return plugins_url( 'assets/cap-logo-white.png', CAP_PLUGIN_FILE );
+	}
+
+	private static function logo_img_html() {
+		return '<img src="' . esc_url( self::logo_url() ) . '" alt="' . esc_attr__( 'Child Aid Papua', 'child-aid-papua' ) . '"'
+			. ' width="164" height="32" style="display:block;width:164px;max-width:100%;height:auto;margin:0 0 10px;border:0;">';
+	}
+
 	private static function notice_text( $amount, $currency = '' ) {
 		$price = wc_price( $amount, $currency ? array( 'currency' => $currency ) : array() );
 		return sprintf(
 			/* translators: 1: donation amount, 2: link to the story page */
 			__( 'Mit dieser Bestellung spenden wir %1$s an das Child-Aid-Papua-Schulprojekt in Raja Ampat. %2$s', 'child-aid-papua' ),
-			'<strong>' . $price . '</strong>',
-			'<a href="' . esc_url( cap_get_page_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Lies hier die Geschichte dahinter →', 'child-aid-papua' ) . '</a>'
+			'<strong style="color:#ffffff;white-space:nowrap;">' . $price . '</strong>',
+			'<a href="' . esc_url( cap_get_page_url() ) . '" target="_blank" rel="noopener" style="color:#37C0C4;font-weight:700;">' . esc_html__( 'Lies hier die Geschichte dahinter →', 'child-aid-papua' ) . '</a>'
 		);
 	}
 
@@ -78,8 +87,8 @@ class CAP_Checkout {
 		if ( $amount <= 0 ) {
 			return;
 		}
-		echo '<tr class="cap-donation-row"><td colspan="2" style="padding-top:14px;font-size:.92em;line-height:1.5;background:#f0f7f7;border-radius:8px;">';
-		echo '<span style="margin-right:.4em;">💙</span>' . wp_kses_post( self::notice_text( $amount ) );
+		echo '<tr class="cap-donation-row"><td colspan="2" style="padding:0;border:0;">';
+		echo self::notice_box_html( $amount, '14px 0 0' ); // phpcs:ignore WordPress.Security.EscapeOutput
 		echo '</td></tr>';
 	}
 
@@ -100,9 +109,10 @@ class CAP_Checkout {
 		return self::notice_box_html( $amount );
 	}
 
-	private static function notice_box_html( $amount ) {
-		return '<div class="cap-donation-notice" style="display:flex;gap:.7em;align-items:flex-start;background:#f0f7f7;border:1px solid #cde5e6;border-radius:10px;padding:14px 18px;margin:0 0 20px;font-size:.95em;line-height:1.55;">'
-			. '<span aria-hidden="true" style="font-size:1.3em;line-height:1.2;">💙</span>'
+	private static function notice_box_html( $amount, $margin = '0 0 20px' ) {
+		// Solid dark background (matches the story page); the bundled logo is white.
+		return '<div class="cap-donation-notice" style="background:#062A3A;border-radius:12px;padding:18px 20px;margin:' . esc_attr( $margin ) . ';font-size:.95em;line-height:1.55;color:#EAF6F5;text-align:left;">'
+			. self::logo_img_html()
 			. '<span>' . wp_kses_post( self::notice_text( $amount ) ) . '</span>'
 			. '</div>';
 	}
