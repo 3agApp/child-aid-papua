@@ -234,6 +234,22 @@
   .foot{background:var(--abyss);color:#9FCBCB;text-align:center;padding:40px 0;font-size:.85rem}
   .foot strong{color:#EAF6F5;font-family:"Fraunces",serif;font-weight:500}
 
+  /* ---------- Video overlay ---------- */
+  .video-modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:clamp(16px,4vw,48px)}
+  .video-modal.open{display:flex}
+  .vm-backdrop{position:absolute;inset:0;background:rgba(4,20,28,.88);backdrop-filter:blur(6px);cursor:pointer}
+  .vm-dialog{position:relative;width:min(960px,100%);aspect-ratio:16/9;background:#000;border-radius:16px;overflow:hidden;box-shadow:0 40px 90px -30px rgba(0,0,0,.8);animation:vm-pop .25s ease}
+  .vm-dialog iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .vm-close{
+    position:absolute;top:clamp(10px,2.5vw,22px);right:clamp(10px,2.5vw,22px);z-index:2;
+    width:44px;height:44px;border-radius:50%;border:2px solid rgba(255,255,255,.5);
+    background:rgba(4,20,28,.55);color:#fff;font-size:1.2rem;line-height:1;cursor:pointer;
+    display:grid;place-items:center;transition:.15s
+  }
+  .vm-close:hover{background:#fff;color:var(--abyss);border-color:#fff}
+  @keyframes vm-pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
+  body.vm-lock{overflow:hidden}
+
   /* reveal animation */
   .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
   .reveal.in{opacity:1;transform:none}
@@ -277,7 +293,10 @@
           Jetzt direkt spenden
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
         </a>
-        <a class="btn btn-ghost" href="#projekt">Mehr über das Projekt</a>
+        <button class="btn btn-ghost" type="button" data-video-open aria-haspopup="dialog" aria-controls="video-modal">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg>
+          Video zum Projekt
+        </button>
       </div>
       <p class="hero-note">Eine Schule, geführt von einer Schweizer Familie. Getragen von einem Verein in der Schweiz. Über 60 Kinder – ein Ziel: eine bessere Zukunft.</p>
     </div>
@@ -473,7 +492,43 @@
   </div>
 </footer>
 
+<!-- ============ VIDEO OVERLAY ============ -->
+<div class="video-modal" id="video-modal" role="dialog" aria-modal="true" aria-label="Video zum Projekt" hidden>
+  <div class="vm-backdrop" data-video-close></div>
+  <div class="vm-dialog">
+    <iframe title="Child Aid Papua – Video zum Projekt" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  <button class="vm-close" type="button" data-video-close aria-label="Video schliessen">✕</button>
+</div>
+
 <script>
+  // Video overlay
+  (function(){
+    const modal = document.getElementById('video-modal');
+    const iframe = modal.querySelector('iframe');
+    const src = 'https://www.youtube-nocookie.com/embed/MtoOntj06eM?autoplay=1&rel=0';
+    let lastFocus = null;
+
+    function open(){
+      lastFocus = document.activeElement;
+      iframe.src = src;
+      modal.hidden = false;
+      modal.classList.add('open');
+      document.body.classList.add('vm-lock');
+      modal.querySelector('.vm-close').focus();
+    }
+    function close(){
+      modal.classList.remove('open');
+      modal.hidden = true;
+      iframe.src = '';
+      document.body.classList.remove('vm-lock');
+      if(lastFocus) lastFocus.focus();
+    }
+    document.querySelectorAll('[data-video-open]').forEach(el=>el.addEventListener('click', open));
+    modal.querySelectorAll('[data-video-close]').forEach(el=>el.addEventListener('click', close));
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('open')) close(); });
+  })();
+
   // Scroll reveal
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
