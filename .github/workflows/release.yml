@@ -1,0 +1,120 @@
+name: Create Release on Version Change
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'child-aid-papua.php'
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version_changed: ${{ steps.check.outputs.changed }}
+      new_version: ${{ steps.check.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check if version changed
+        id: check
+        run: |
+          # Get current version from plugin file
+          CURRENT_VERSION=$(grep -oP "Version:\s*\K[0-9]+\.[0-9]+\.[0-9]+" child-aid-papua.php | head -1)
+          echo "Current version: $CURRENT_VERSION"
+
+          # Get previous version
+          git show HEAD~1:child-aid-papua.php > /tmp/previous.php 2>/dev/null || echo "Version: 0.0.0" > /tmp/previous.php
+          PREVIOUS_VERSION=$(grep -oP "Version:\s*\K[0-9]+\.[0-9]+\.[0-9]+" /tmp/previous.php | head -1 || echo "0.0.0")
+          echo "Previous version: $PREVIOUS_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
+            echo "Version changed from $PREVIOUS_VERSION to $CURRENT_VERSION"
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "Version unchanged"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+  create-release:
+    needs: check-version
+    if: needs.check-version.outputs.version_changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create plugin zip
+        run: |
+          mkdir -p build/child-aid-papua
+
+          # Copy plugin files (exclude dev files)
+          cp -r assets build/child-aid-papua/
+          cp -r includes build/child-aid-papua/
+          cp -r templates build/child-aid-papua/
+          cp child-aid-papua.php build/child-aid-papua/
+          cp README.md build/child-aid-papua/ 2>/dev/null || true
+
+          # Create versioned zip
+          cd build
+          zip -r ../child-aid-papua-${{ needs.check-version.outputs.new_version }}.zip child-aid-papua
+
+          # Create latest zip (static filename)
+          cp ../child-aid-papua-${{ needs.check-version.outputs.new_version }}.zip ../child-aid-papua-latest.zip
+          cd ..
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          VERSION="${{ needs.check-version.outputs.new_version }}"
+
+          # Try to extract changelog from readme.txt if it exists
+          if [ -f "readme.txt" ]; then
+            CHANGELOG=$(sed -n "/== Changelog ==/,/== /p" readme.txt | head -50 | tail -n +2 | head -n -1)
+          fi
+
+          # If no changelog found, use commit messages
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG=$(git log --oneline -10 --pretty=format:"- %s")
+          fi
+
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ needs.check-version.outputs.new_version }}
+          name: Child Aid Papua v${{ needs.check-version.outputs.new_version }}
+          body: |
+            ## Child Aid Papua v${{ needs.check-version.outputs.new_version }}
+
+            ### Changes
+            ${{ steps.changelog.outputs.changelog }}
+
+            ### Installation
+            1. Download `child-aid-papua-${{ needs.check-version.outputs.new_version }}.zip`
+            2. Go to WordPress Admin → Plugins → Add New → Upload Plugin
+            3. Upload the zip file and activate
+
+            ### Requirements
+            - WordPress 6.0+
+            - PHP 7.4+
+            - WooCommerce 7.0+ (optional – only needed for the checkout notice and donation report)
+          files: |
+            child-aid-papua-${{ needs.check-version.outputs.new_version }}.zip
+            child-aid-papua-latest.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
