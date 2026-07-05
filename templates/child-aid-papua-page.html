@@ -137,6 +137,7 @@
   }
   .photo .ph-label span{display:block;font-weight:500;opacity:.8;font-size:.78rem;margin-top:2px}
   .photo .ph-icon{position:absolute;top:20px;left:20px;z-index:2;opacity:.85}
+  .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 
   /* ---------- 1% signature ---------- */
   .pledge{text-align:center;position:relative;overflow:hidden}
@@ -317,13 +318,8 @@
       <p>Wir durften die Klassenräume sehen, die engagierten Lehrkräfte treffen und die fröhlichen Kinder erleben, die hier voller Neugier lernen. Was wir gespürt haben: Hier wird mit Herz, Hingabe und einer grossen Portion Schweizer Tatkraft etwas Einzigartiges aufgebaut. Der Gründer lebt mit seiner Frau direkt vor Ort und treibt das Projekt mit ganzem Herzblut voran.</p>
       <p class="signature-line">Seither lässt uns dieses Projekt nicht mehr los. Es ist unser Herzensprojekt geworden – und wir wollen, dass es wächst.</p>
     </div>
-    <figure class="photo tall story-photo reveal" role="img" aria-label="Kinder der Child-Aid-Papua-Schule in Raja Ampat">
-      <div class="ph-icon">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.2"/><path d="M8 6l1.5-2h5L16 6"/></svg>
-      </div>
-      <figcaption class="ph-label">Foto einsetzen: Kinder vor der Schule
-        <span>Empfehlung: Child_Aid_Own_001–010 oder eigenes Reisefoto · Alt-Text: «Kinder der Child-Aid-Papua-Schule in Raja Ampat»</span>
-      </figcaption>
+    <figure class="photo tall story-photo reveal">
+      <img src="{{CAP_ASSETS}}/first.webp" alt="Luftaufnahme der Child-Aid-Papua-Schule in Raja Ampat" loading="lazy" decoding="async">
     </figure>
   </div>
 </section>
@@ -450,10 +446,10 @@
       <p class="lead-p">Setze hier deine schönsten Fotos vom Projekt ein – Klassenzimmer, Kinder, Riff und die Menschen dahinter.</p>
     </div>
     <div class="gallery reveal">
-      <figure class="photo g-wide g-tall" aria-label="Bild einsetzen"><figcaption class="ph-label">Grosses Hauptbild <span>z. B. Luftaufnahme Raja Ampat</span></figcaption></figure>
-      <figure class="photo" aria-label="Bild einsetzen"><figcaption class="ph-label">Klassenzimmer</figcaption></figure>
-      <figure class="photo" aria-label="Bild einsetzen"><figcaption class="ph-label">Kinder</figcaption></figure>
-      <figure class="photo g-wide" aria-label="Bild einsetzen"><figcaption class="ph-label">Schule & Umgebung</figcaption></figure>
+      <figure class="photo g-wide g-tall"><img src="{{CAP_ASSETS}}/1.webp" alt="Das Schulgebäude von Child Aid Papua mit dem Eingangstor in Raja Ampat" loading="lazy" decoding="async"></figure>
+      <figure class="photo"><img src="{{CAP_ASSETS}}/2.webp" alt="Schülerinnen und Schüler lernen mit Laptops im Klassenzimmer" loading="lazy" decoding="async"></figure>
+      <figure class="photo"><img src="{{CAP_ASSETS}}/3.webp" alt="Kinder in traditioneller Papua-Tracht mit Federschmuck und Körperbemalung" loading="lazy" decoding="async"></figure>
+      <figure class="photo g-wide"><img src="{{CAP_ASSETS}}/4.webp" alt="Ein Junge taucht über dem farbenprächtigen Korallenriff von Raja Ampat" loading="lazy" decoding="async"></figure>
     </div>
   </div>
 </section>

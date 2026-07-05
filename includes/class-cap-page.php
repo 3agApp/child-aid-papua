@@ -34,13 +34,21 @@ class CAP_Page {
 		}
 
 		$template = CAP_PLUGIN_DIR . 'templates/child-aid-papua-page.html';
-		if ( ! file_exists( $template ) ) {
+		$html     = file_exists( $template ) ? file_get_contents( $template ) : false;
+		if ( false === $html ) {
 			wp_die( esc_html__( 'Die Child-Aid-Papua-Seite wurde nicht gefunden.', 'child-aid-papua' ), 404 );
 		}
 
+		// Resolve asset URLs so images work regardless of install location.
+		$html = str_replace(
+			'{{CAP_ASSETS}}',
+			esc_url( plugins_url( 'assets', CAP_PLUGIN_FILE ) ),
+			$html
+		);
+
 		status_header( 200 );
 		header( 'Content-Type: text/html; charset=UTF-8' );
-		readfile( $template );
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted template.
 		exit;
 	}
 }
