@@ -340,7 +340,7 @@
     </div>
     <figure class="photo tall story-photo reveal">
       <img src="{{CAP_ASSETS}}/first-960.webp"
-        srcset="{{CAP_ASSETS}}/first-480.webp 480w, {{CAP_ASSETS}}/first-960.webp 960w, {{CAP_ASSETS}}/first-1600.webp 1600w"
+        srcset="{{CAP_ASSETS}}/first-480.webp 480w, {{CAP_ASSETS}}/first-960.webp 960w, {{CAP_ASSETS}}/first-1200.webp 1200w, {{CAP_ASSETS}}/first-1600.webp 1600w"
         sizes="(max-width:900px) 92vw, 500px"
         data-full="{{CAP_ASSETS}}/first-1600.webp"
         alt="Luftaufnahme der Child-Aid-Papua-Schule in Raja Ampat" loading="lazy" decoding="async">
@@ -471,7 +471,7 @@
     </div>
     <div class="gallery reveal">
       <figure class="photo g-wide g-tall"><img src="{{CAP_ASSETS}}/1-960.webp"
-        srcset="{{CAP_ASSETS}}/1-480.webp 480w, {{CAP_ASSETS}}/1-960.webp 960w, {{CAP_ASSETS}}/1-1600.webp 1600w"
+        srcset="{{CAP_ASSETS}}/1-480.webp 480w, {{CAP_ASSETS}}/1-960.webp 960w, {{CAP_ASSETS}}/1-1200.webp 1200w, {{CAP_ASSETS}}/1-1600.webp 1600w"
         sizes="(max-width:900px) 92vw, 540px"
         data-full="{{CAP_ASSETS}}/1-1600.webp"
         alt="Das Schulgebäude von Child Aid Papua mit dem Eingangstor in Raja Ampat" loading="lazy" decoding="async"></figure>
@@ -486,7 +486,7 @@
         data-full="{{CAP_ASSETS}}/3-1600.webp"
         alt="Kinder in traditioneller Papua-Tracht mit Federschmuck und Körperbemalung" loading="lazy" decoding="async"></figure>
       <figure class="photo g-wide"><img src="{{CAP_ASSETS}}/4-960.webp"
-        srcset="{{CAP_ASSETS}}/4-480.webp 480w, {{CAP_ASSETS}}/4-960.webp 960w, {{CAP_ASSETS}}/4-1600.webp 1600w"
+        srcset="{{CAP_ASSETS}}/4-480.webp 480w, {{CAP_ASSETS}}/4-960.webp 960w, {{CAP_ASSETS}}/4-1200.webp 1200w, {{CAP_ASSETS}}/4-1600.webp 1600w"
         sizes="(max-width:900px) 92vw, 540px"
         data-full="{{CAP_ASSETS}}/4-1600.webp"
         alt="Ein Junge taucht über dem farbenprächtigen Korallenriff von Raja Ampat" loading="lazy" decoding="async"></figure>
@@ -593,6 +593,10 @@
       imgEl.src = t.dataset.full;
       imgEl.alt = t.alt;
       capEl.textContent = t.alt;
+      // Preload neighbours for instant prev/next.
+      [idx - 1, idx + 1].forEach(n=>{
+        new Image().src = items[(n + items.length) % items.length].dataset.full;
+      });
     }
     function open(i){
       lastFocus = document.activeElement;
