@@ -3,7 +3,7 @@
  * Plugin Name:       Child Aid Papua – 1% Spende
  * Plugin URI:        https://3ag.education
  * Description:       Zeigt die Child-Aid-Papua-Story unter /child-aid-papua, informiert im Checkout über die 1%-Spende vom Umsatz und liefert einen Spendenbericht im Backend.
- * Version:           1.0.1
+ * Version:           1.1.0
  * Author:            3ag.education
  * License:           GPL-2.0-or-later
  * Text Domain:       child-aid-papua
