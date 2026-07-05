@@ -137,7 +137,7 @@
   }
   .photo .ph-label span{display:block;font-weight:500;opacity:.8;font-size:.78rem;margin-top:2px}
   .photo .ph-icon{position:absolute;top:20px;left:20px;z-index:2;opacity:.85}
-  .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+  .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;cursor:zoom-in}
 
   /* ---------- 1% signature ---------- */
   .pledge{text-align:center;position:relative;overflow:hidden}
@@ -251,6 +251,23 @@
   @keyframes vm-pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
   body.vm-lock{overflow:hidden}
 
+  /* ---------- Lightbox ---------- */
+  .lightbox{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:clamp(16px,4vw,48px)}
+  .lightbox.open{display:flex}
+  .lb-backdrop{position:absolute;inset:0;background:rgba(4,20,28,.9);backdrop-filter:blur(6px);cursor:zoom-out}
+  .lb-figure{position:relative;z-index:2;max-width:min(1100px,100%);display:flex;flex-direction:column;gap:12px;align-items:center;animation:vm-pop .25s ease}
+  .lb-figure img{max-width:100%;max-height:calc(100vh - 150px);border-radius:14px;box-shadow:0 40px 90px -30px rgba(0,0,0,.8)}
+  .lb-caption{color:#BEDCDB;font-size:.9rem;text-align:center;max-width:60ch}
+  .lb-nav{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+    width:46px;height:46px;border-radius:50%;border:2px solid rgba(255,255,255,.5);
+    background:rgba(4,20,28,.55);color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;
+    display:grid;place-items:center;transition:.15s
+  }
+  .lb-nav:hover{background:#fff;color:var(--abyss);border-color:#fff}
+  .lb-prev{left:clamp(10px,2.5vw,22px)}
+  .lb-next{right:clamp(10px,2.5vw,22px)}
+
   /* reveal animation */
   .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
   .reveal.in{opacity:1;transform:none}
@@ -319,7 +336,11 @@
       <p class="signature-line">Seither lässt uns dieses Projekt nicht mehr los. Es ist unser Herzensprojekt geworden – und wir wollen, dass es wächst.</p>
     </div>
     <figure class="photo tall story-photo reveal">
-      <img src="{{CAP_ASSETS}}/first.webp" alt="Luftaufnahme der Child-Aid-Papua-Schule in Raja Ampat" loading="lazy" decoding="async">
+      <img src="{{CAP_ASSETS}}/first-960.webp"
+        srcset="{{CAP_ASSETS}}/first-480.webp 480w, {{CAP_ASSETS}}/first-960.webp 960w, {{CAP_ASSETS}}/first-1600.webp 1600w"
+        sizes="(max-width:900px) 92vw, 500px"
+        data-full="{{CAP_ASSETS}}/first-1600.webp"
+        alt="Luftaufnahme der Child-Aid-Papua-Schule in Raja Ampat" loading="lazy" decoding="async">
     </figure>
   </div>
 </section>
@@ -446,10 +467,26 @@
       <p class="lead-p">Setze hier deine schönsten Fotos vom Projekt ein – Klassenzimmer, Kinder, Riff und die Menschen dahinter.</p>
     </div>
     <div class="gallery reveal">
-      <figure class="photo g-wide g-tall"><img src="{{CAP_ASSETS}}/1.webp" alt="Das Schulgebäude von Child Aid Papua mit dem Eingangstor in Raja Ampat" loading="lazy" decoding="async"></figure>
-      <figure class="photo"><img src="{{CAP_ASSETS}}/2.webp" alt="Schülerinnen und Schüler lernen mit Laptops im Klassenzimmer" loading="lazy" decoding="async"></figure>
-      <figure class="photo"><img src="{{CAP_ASSETS}}/3.webp" alt="Kinder in traditioneller Papua-Tracht mit Federschmuck und Körperbemalung" loading="lazy" decoding="async"></figure>
-      <figure class="photo g-wide"><img src="{{CAP_ASSETS}}/4.webp" alt="Ein Junge taucht über dem farbenprächtigen Korallenriff von Raja Ampat" loading="lazy" decoding="async"></figure>
+      <figure class="photo g-wide g-tall"><img src="{{CAP_ASSETS}}/1-960.webp"
+        srcset="{{CAP_ASSETS}}/1-480.webp 480w, {{CAP_ASSETS}}/1-960.webp 960w, {{CAP_ASSETS}}/1-1600.webp 1600w"
+        sizes="(max-width:900px) 92vw, 540px"
+        data-full="{{CAP_ASSETS}}/1-1600.webp"
+        alt="Das Schulgebäude von Child Aid Papua mit dem Eingangstor in Raja Ampat" loading="lazy" decoding="async"></figure>
+      <figure class="photo"><img src="{{CAP_ASSETS}}/2-480.webp"
+        srcset="{{CAP_ASSETS}}/2-480.webp 480w, {{CAP_ASSETS}}/2-960.webp 960w"
+        sizes="(max-width:900px) 46vw, 260px"
+        data-full="{{CAP_ASSETS}}/2-1600.webp"
+        alt="Schülerinnen und Schüler lernen mit Laptops im Klassenzimmer" loading="lazy" decoding="async"></figure>
+      <figure class="photo"><img src="{{CAP_ASSETS}}/3-480.webp"
+        srcset="{{CAP_ASSETS}}/3-480.webp 480w, {{CAP_ASSETS}}/3-960.webp 960w"
+        sizes="(max-width:900px) 46vw, 260px"
+        data-full="{{CAP_ASSETS}}/3-1600.webp"
+        alt="Kinder in traditioneller Papua-Tracht mit Federschmuck und Körperbemalung" loading="lazy" decoding="async"></figure>
+      <figure class="photo g-wide"><img src="{{CAP_ASSETS}}/4-960.webp"
+        srcset="{{CAP_ASSETS}}/4-480.webp 480w, {{CAP_ASSETS}}/4-960.webp 960w, {{CAP_ASSETS}}/4-1600.webp 1600w"
+        sizes="(max-width:900px) 92vw, 540px"
+        data-full="{{CAP_ASSETS}}/4-1600.webp"
+        alt="Ein Junge taucht über dem farbenprächtigen Korallenriff von Raja Ampat" loading="lazy" decoding="async"></figure>
     </div>
   </div>
 </section>
@@ -497,6 +534,18 @@
   <button class="vm-close" type="button" data-video-close aria-label="Video schliessen">✕</button>
 </div>
 
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Bildansicht" hidden>
+  <div class="lb-backdrop" data-lb-close></div>
+  <button class="lb-nav lb-prev" type="button" data-lb-prev aria-label="Vorheriges Bild">‹</button>
+  <figure class="lb-figure">
+    <img src="" alt="">
+    <figcaption class="lb-caption"></figcaption>
+  </figure>
+  <button class="lb-nav lb-next" type="button" data-lb-next aria-label="Nächstes Bild">›</button>
+  <button class="vm-close" type="button" data-lb-close aria-label="Bild schliessen">✕</button>
+</div>
+
 <script>
   // Video overlay
   (function(){
@@ -523,6 +572,55 @@
     document.querySelectorAll('[data-video-open]').forEach(el=>el.addEventListener('click', open));
     modal.querySelectorAll('[data-video-close]').forEach(el=>el.addEventListener('click', close));
     document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('open')) close(); });
+  })();
+
+  // Lightbox
+  (function(){
+    const box = document.getElementById('lightbox');
+    if(!box) return;
+    const imgEl = box.querySelector('.lb-figure img');
+    const capEl = box.querySelector('.lb-caption');
+    const items = Array.from(document.querySelectorAll('.photo img[data-full]'));
+    if(!items.length) return;
+    let idx = 0, lastFocus = null;
+
+    function show(i){
+      idx = (i + items.length) % items.length;
+      const t = items[idx];
+      imgEl.src = t.dataset.full;
+      imgEl.alt = t.alt;
+      capEl.textContent = t.alt;
+    }
+    function open(i){
+      lastFocus = document.activeElement;
+      show(i);
+      box.hidden = false;
+      box.classList.add('open');
+      document.body.classList.add('vm-lock');
+      box.querySelector('.vm-close').focus();
+    }
+    function close(){
+      box.classList.remove('open');
+      box.hidden = true;
+      imgEl.src = '';
+      document.body.classList.remove('vm-lock');
+      if(lastFocus) lastFocus.focus();
+    }
+    items.forEach((el, i)=>{
+      el.setAttribute('tabindex','0');
+      el.setAttribute('role','button');
+      el.addEventListener('click', ()=>open(i));
+      el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(i); } });
+    });
+    box.querySelectorAll('[data-lb-close]').forEach(el=>el.addEventListener('click', close));
+    box.querySelector('[data-lb-prev]').addEventListener('click', ()=>show(idx-1));
+    box.querySelector('[data-lb-next]').addEventListener('click', ()=>show(idx+1));
+    document.addEventListener('keydown', e=>{
+      if(!box.classList.contains('open')) return;
+      if(e.key==='Escape') close();
+      if(e.key==='ArrowLeft') show(idx-1);
+      if(e.key==='ArrowRight') show(idx+1);
+    });
   })();
 
   // Scroll reveal
