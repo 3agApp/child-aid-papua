@@ -152,7 +152,7 @@
     -webkit-background-clip:text;background-clip:text;color:transparent;
     letter-spacing:-.03em;
   }
-  .pledge h2{max-width:20ch;margin:0 auto .5em}
+  .pledge h2{max-width:30ch;margin:0 auto .5em}
   .pledge .lead-p{max-width:56ch;margin:0 auto}
   .pledge-note{margin-top:1.6em;font-size:.9rem;color:#8FC0C0}
 
@@ -273,6 +273,9 @@
   .reveal.in{opacity:1;transform:none}
 
   /* ---------- Responsive ---------- */
+  @media(max-width:600px){
+    .pledge h2 br{display:none}
+  }
   @media(max-width:900px){
     .split,.contact{grid-template-columns:1fr}
     .pillars,.voices{grid-template-columns:1fr}
@@ -305,7 +308,7 @@
     <div class="hero-inner">
       <span class="eyebrow">3ag.education &nbsp;×&nbsp; Child Aid Papua</span>
       <h1>Jeder Einkauf schenkt <em>Zukunft</em> – am schönsten Riff der Welt.</h1>
-      <p class="lead">Im Herzen von Raja Ampat steht eine Schule, die Kindern Bildung schenkt und ihnen zeigt, wie man vom Meer lebt und es zugleich schützt. Wir vom 3ag.education-Shop unterstützen dieses Herzensprojekt – mit <strong>1 % von jedem Umsatz</strong>.</p>
+      <p class="lead">Im Herzen von Raja Ampat steht eine Schule, die Kindern Bildung schenkt und ihnen zeigt, wie man vom Meer lebt und es zugleich schützt. Wir vom 3ag.education-Shop unterstützen dieses Herzensprojekt und spenden von jedem Umsatz im Shop <strong>1%</strong> an Child Aid Papua.</p>
       <div class="hero-cta">
         <a class="btn btn-donate" href="https://www.childaidpapua.org/unterstuetzen" target="_blank" rel="noopener">
           Jetzt direkt spenden
@@ -351,7 +354,7 @@
   <div class="wrap reveal">
     <span class="eyebrow">Unser Versprechen</span>
     <div class="bignum">1%</div>
-    <h2>Von jedem Umsatz im 3ag.education-Shop fliesst 1 % nach Raja Ampat.</h2>
+    <h2>Von jedem Umsatz im <br>3ag.education-Shop fliesst <br>1% nach Raja Ampat.</h2>
     <p class="lead-p">Kein Aufpreis, kein Kleingedrucktes. Für dich ändert sich nichts – für die Kinder von Child Aid Papua verändert es alles. Denn Bildung braucht Verlässlichkeit: Lehrerinnen und Lehrer, Lernmaterial, Verpflegung und einen sicheren Ort zum Lernen. Tag für Tag.</p>
     <p class="pledge-note">Mit jeder Bestellung wirst du automatisch Teil davon. Danke, dass du mithilfst.</p>
   </div>
@@ -402,7 +405,7 @@
 <section class="band band-paper">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">Bald im Kino</span>
+      <span class="eyebrow">Bald im Streaming</span>
       <h2>Eine Geschichte, die man gesehen haben muss.</h2>
       <p class="lead-p">Über die Schule und die Kinder von Raja Ampat entsteht ein Dokumentarfilm. Lehn dich zurück und tauch für einen Moment in eine andere Welt ein – es lohnt sich.</p>
     </div>
@@ -463,8 +466,8 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">Einblicke</span>
-      <h2>Raja Ampat in Bildern</h2>
-      <p class="lead-p">Setze hier deine schönsten Fotos vom Projekt ein – Klassenzimmer, Kinder, Riff und die Menschen dahinter.</p>
+      <h2>Child Aid Papua</h2>
+      <p class="lead-p">Impressionen aus Raja Ampat.</p>
     </div>
     <div class="gallery reveal">
       <figure class="photo g-wide g-tall"><img src="{{CAP_ASSETS}}/1-960.webp"
