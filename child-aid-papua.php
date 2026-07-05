@@ -16,12 +16,19 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'CAP_PLUGIN_FILE', __FILE__ );
 define( 'CAP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'CAP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'CAP_PAGE_SLUG', 'child-aid-papua' );
 define( 'CAP_DEFAULT_PERCENTAGE', 1.0 );
+
+// Version from the plugin header (single source of truth).
+$cap_header  = get_file_data( __FILE__, array( 'Version' => 'Version' ) );
+define( 'CAP_VERSION', $cap_header['Version'] ? $cap_header['Version'] : '1.0.0' );
+unset( $cap_header );
 
 require_once CAP_PLUGIN_DIR . 'includes/class-cap-page.php';
 require_once CAP_PLUGIN_DIR . 'includes/class-cap-checkout.php';
 require_once CAP_PLUGIN_DIR . 'includes/class-cap-report.php';
+require_once CAP_PLUGIN_DIR . 'includes/class-cap-updater.php';
 
 // WooCommerce HPOS (custom order tables) compatibility.
 add_action( 'before_woocommerce_init', function () {
@@ -59,6 +66,7 @@ function cap_get_page_url() {
 CAP_Page::init();
 CAP_Checkout::init();
 CAP_Report::init();
+CAP_Updater::init();
 
 register_activation_hook( __FILE__, function () {
 	CAP_Page::register_rewrite();

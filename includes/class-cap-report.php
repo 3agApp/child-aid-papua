@@ -248,6 +248,8 @@ class CAP_Report {
 				</table>
 				<p><button class="button button-primary" name="cap_save_settings" value="1"><?php esc_html_e( 'Speichern', 'child-aid-papua' ); ?></button></p>
 			</form>
+
+			<?php CAP_Updater::render_settings_section(); ?>
 		</div>
 		<?php
 	}
